@@ -161,8 +161,12 @@ function showGift(){
   gift.onclick=()=>{
     gift.remove();
     document.getElementById('header').textContent="Let's record a song together (Saturday?) Here is an idea...";
-    document.getElementById('song').style.display='block';
-    document.getElementById('notes').style.display='block';
+  
+    // 👉 turn the audio bar on
+    document.getElementById('song').style.display = 'block';
+
+    // 👉 turn the notes image on (this is the line you asked about)
+    document.getElementById('notes').style.display = 'block';
   };
 }
 

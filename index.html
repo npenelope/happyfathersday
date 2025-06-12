@@ -22,8 +22,12 @@
 
     /* gift + song */
     #gift  { width:220px; cursor:pointer; margin-top:25px; display:none; }
-    #song  { margin-top:25px; }
-    #notes { display:none; margin-top:20px; width:400px; height:auto; }
+
+    /* BIGGER audio controls */
+    #song  { margin-top:25px; width:600px; max-width:90%; }
+
+    /* BIGGER notes picture */
+    #notes { display:none; margin-top:20px; width:600px; max-width:90%; height:auto; }
 
     /* game-over flash */
     #gameOver{
@@ -83,7 +87,6 @@
 
   <!-- memories -->
   <div id="memories">
-    <!-- spread-out floating pics -->
     <img src="mem1.jpg" class="memPic" style="top:  5%; left:10%;">
     <img src="mem2.jpg" class="memPic" style="top:  5%; left:65%; animation-duration:7s;">
     <img src="mem3.jpg" class="memPic" style="top: 20%; left:35%; animation-duration:5s;">
@@ -94,7 +97,6 @@
     <img src="mem8.jpg" class="memPic" style="top: 65%; left:60%; animation-duration:6.5s;">
     <img src="mem9.jpg" class="memPic" style="top: 75%; left:40%; animation-duration:9s;">
 
-    <!-- heartfelt text -->
     <div class="memBox" id="memBox">
       <p>
         Happy Father's Day! So glad I won the father lottery: you are such a great dad.
@@ -108,7 +110,7 @@
 
   <!-- gift + media -->
   <img id="gift" src="gift.png" alt="wrapped present">
-  <audio id="song" src="happy.mp3" controls style="display:none;"></audio>
+  <audio id="song" src="happy.mp3" controls></audio>
   <img id="notes" src="notes.png" alt="musical notes">
 
   <!-- game-over flash -->
@@ -133,10 +135,7 @@ function gateToQuiz(){
   document.getElementById('quiz').style.display='block';
   showQ();
 }
-function showQ(){
-  document.getElementById('qText').textContent=quiz[qi].q;
-  document.getElementById('aBox').value='';
-}
+function showQ(){ document.getElementById('qText').textContent=quiz[qi].q; document.getElementById('aBox').value=''; }
 function next(){
   const g=document.getElementById('aBox').value.trim().toLowerCase();
   if(g===quiz[qi].a){ ++qi<quiz.length ? showQ() : showMemories(); }
@@ -149,7 +148,6 @@ function showMemories(){
   document.getElementById('memories').style.display='block';
   document.getElementById('header').textContent='Memories';
 
-  /* after 10 s fade pics, reveal text+button */
   setTimeout(()=>{
     document.querySelectorAll('.memPic').forEach(pic=>pic.style.opacity='0');
     const box=document.getElementById('memBox');
@@ -159,9 +157,7 @@ function showMemories(){
 }
 
 /* gift page */
-document.getElementById('openGiftBtn').onclick=()=>{ 
-  document.getElementById('memories').style.display='none'; showGift(); 
-};
+document.getElementById('openGiftBtn').onclick=()=>{ document.getElementById('memories').style.display='none'; showGift(); };
 function showGift(){
   const header=document.getElementById('header');
   header.textContent='Happy Father’s Day! Open your gift!';
@@ -176,18 +172,13 @@ function showGift(){
 }
 
 /* fail + reset */
-function gameOver(){
-  document.getElementById('quiz').style.display='none';
-  document.getElementById('gameOver').style.display='block';
-  setTimeout(resetAll,1500);
-}
+function gameOver(){ document.getElementById('quiz').style.display='none'; document.getElementById('gameOver').style.display='block'; setTimeout(resetAll,1500); }
 function resetAll(){
   qi=0;
   ['gate','dadAns','gift','notes','memories','gameOver'].forEach(id=>{
-    const el=document.getElementById(id);
-    if(!el) return;
+    const el=document.getElementById(id); if(!el) return;
     if(id==='gate'||id==='gameOver'){ el.style.display=id==='gate'?'block':'none'; }
-    else if(id!=='dadAns'){           el.style.display='none'; }
+    else if(id!=='dadAns'){ el.style.display='none'; }
   });
   const song=document.getElementById('song');
   song.pause(); song.currentTime=0; song.style.display='none';
@@ -197,8 +188,6 @@ function resetAll(){
 </script>
 </body>
 </html>
-
-
 
 
 

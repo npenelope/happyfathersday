@@ -37,7 +37,7 @@
 
     .memPic{
       position:absolute;
-      width:180px;                           /* bigger images */
+      width:240px;                           /* bigger images */
       border-radius:10px;
       pointer-events:none;
       animation:float 6s ease-in-out infinite;
@@ -84,15 +84,16 @@
   <!-- memories -->
   <div id="memories">
     <!-- 9 floating pics -->
-    <img src="mem1.jpg" class="memPic" style="top: 6%;  left:  5%;">
-    <img src="mem2.jpg" class="memPic" style="top:14%;  left: 75%; animation-duration:7s;">
-    <img src="mem3.jpg" class="memPic" style="top:28%;  left: 15%; animation-duration:5s;">
-    <img src="mem4.jpg" class="memPic" style="top:35%;  left: 60%; animation-duration:8s;">
-    <img src="mem5.jpg" class="memPic" style="top:50%;  left:  3%; animation-duration:6s;">
-    <img src="mem6.jpg" class="memPic" style="top:52%;  left: 80%; animation-duration:7.5s;">
-    <img src="mem7.jpg" class="memPic" style="top:64%;  left: 25%; animation-duration:5.5s;">
-    <img src="mem8.jpg" class="memPic" style="top:68%;  left: 70%; animation-duration:6.5s;">
-    <img src="mem9.jpg" class="memPic" style="top:78%;  left: 45%; animation-duration:9s;">
+    <img src="mem1.jpg" class="memPic" style="top:14%; left:20%;">
+<img src="mem2.jpg" class="memPic" style="top:10%; left:58%; animation-duration:7s;">
+<img src="mem3.jpg" class="memPic" style="top:26%; left:38%; animation-duration:5s;">
+<img src="mem4.jpg" class="memPic" style="top:40%; left:65%; animation-duration:8s;">
+<img src="mem5.jpg" class="memPic" style="top:46%; left:22%; animation-duration:6s;">
+<img src="mem6.jpg" class="memPic" style="top:58%; left:52%; animation-duration:7.5s;">
+<img src="mem7.jpg" class="memPic" style="top:62%; left:32%; animation-duration:5.5s;">
+<img src="mem8.jpg" class="memPic" style="top:72%; left:60%; animation-duration:6.5s;">
+<img src="mem9.jpg" class="memPic" style="top:76%; left:40%; animation-duration:9s;">
+
 
     <!-- heartfelt text -->
     <div class="memBox" id="memBox">
@@ -157,7 +158,7 @@ function showMemories(){
     const box=document.getElementById('memBox');
     box.style.display='block';
     setTimeout(()=>box.style.opacity='1',50);   // slight delay for smooth fade
-  },5000);
+  },10000);
 }
 
 /* gift page */

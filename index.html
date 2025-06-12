@@ -17,10 +17,14 @@
     h1{ margin-bottom:30px; }
     input,button{ font-size:18px; padding:6px 10px; }
 
-    /* gift + song (HIDDEN by default) */
+    /* gift + media */
     #gift  { width:220px; cursor:pointer; margin-top:25px; display:none; }
-    #song  { display:none; margin-top:25px; width:600px; max-width:90%; }
-    #notes { display:none; margin-top:20px; width:600px; max-width:90%; height:auto; }
+
+    /* centered, bigger audio bar */
+    #song  { display:none; margin:25px auto; width:600px; max-width:90%; }
+
+    /* centered, bigger notes image */
+    #notes { display:none; margin:20px auto; width:600px; max-width:90%; height:auto; }
 
     #gameOver{
       color:#fff; background:#e00; padding:40px; font-size:32px;
@@ -28,6 +32,7 @@
     }
     @keyframes blink{ from{opacity:1;} to{opacity:0;} }
 
+    /* memories */
     #memories{ position:relative; min-height:80vh; display:none; }
 
     .memPic{
@@ -71,16 +76,15 @@
 
   <!-- memories -->
   <div id="memories">
-    <!-- spread-out pics (bottom ones raised) -->
     <img src="mem1.jpg" class="memPic" style="top:  5%; left:12%;">
     <img src="mem2.jpg" class="memPic" style="top:  5%; left:68%; animation-duration:7s;">
     <img src="mem3.jpg" class="memPic" style="top: 20%; left:35%; animation-duration:5s;">
     <img src="mem4.jpg" class="memPic" style="top: 32%; left: 6%; animation-duration:8s;">
     <img src="mem5.jpg" class="memPic" style="top: 32%; left:75%; animation-duration:6s;">
     <img src="mem6.jpg" class="memPic" style="top: 48%; left:30%; animation-duration:7.5s;">
-    <img src="mem7.jpg" class="memPic" style="top: 58%; left:12%; animation-duration:5.5s;">
-    <img src="mem8.jpg" class="memPic" style="top: 58%; left:62%; animation-duration:6.5s;">
-    <img src="mem9.jpg" class="memPic" style="top: 60%; left:40%; animation-duration:9s;">
+    <img src="mem7.jpg" class="memPic" style="top: 56%; left:12%; animation-duration:5.5s;">
+    <img src="mem8.jpg" class="memPic" style="top: 56%; left:62%; animation-duration:6.5s;">
+    <img src="mem9.jpg" class="memPic" style="top: 50%; left:40%; animation-duration:9s;">
 
     <div class="memBox" id="memBox">
       <p>
@@ -95,9 +99,7 @@
 
   <!-- gift + media -->
   <img id="gift" src="gift.png" alt="wrapped present">
-  <!-- gift + media – replace this single line -->
-<audio id="song" src="happy.mp3" controls style="display:none;"></audio>
-
+  <audio id="song" src="happy.mp3" controls style="display:none;"></audio>
   <img id="notes" src="notes.png" alt="musical notes">
 
   <div id="gameOver">GAME OVER</div>
@@ -172,6 +174,7 @@ function resetAll(){
 </script>
 </body>
 </html>
+
 
 
 

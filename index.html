@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Father’s Day Surprise</title>
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* global look */
+    body{
+      font-family:'Poppins',sans-serif;
+      color:#1e4db5;
+      text-align:center;
+      padding:40px;
+      background:url('bg.jpg') no-repeat center/cover fixed;
+    }
+
+    h1{ margin-bottom:30px; }
+    input,button{ font-size:18px; padding:6px 10px; }
+
+    /* gift + song */
+    #gift  { width:220px; cursor:pointer; margin-top:25px; display:none; }
+    #song  { margin-top:25px; }
+    #notes { display:none; margin-top:20px; width:400px; height:auto; }
+
+    /* trivia fail flash */
+    #gameOver{
+      color:#fff; background:#e00; padding:40px; font-size:32px;
+      animation:blink .4s step-end infinite alternate; display:none;
+    }
+    @keyframes blink{ from{opacity:1;} to{opacity:0;} }
+
+    /* memories screen */
+    #memories{ position:relative; min-height:80vh; display:none; }
+
+    .memPic{
+      position:absolute;
+      width:180px;                           /* bigger images */
+      border-radius:10px;
+      pointer-events:none;
+      animation:float 6s ease-in-out infinite;
+      transition:opacity 1s ease;
+      opacity:1;
+    }
+    @keyframes float{
+      0%{ transform:translateY(0); }
+      50%{ transform:translateY(-25px); }
+      100%{ transform:translateY(0); }
+    }
+
+    .memBox{
+      background:rgba(255,255,255,.88);
+      padding:25px 35px;
+      border-radius:12px;
+      max-width:600px;
+      margin:0 auto;
+      opacity:0;
+      display:none;                           /* no blank gap before show */
+      transition:opacity 1s ease;
+    }
+    #openGiftBtn{ margin-top:18px; }
+  </style>
+</head>
+
+<body>
+  <h1 id="header">Happy Father’s Day!</h1>
+
+  <!-- gate -->
+  <div id="gate">
+    <p>Are you Nico Penelope's dad? Type "yes" or "no"</p>
+    <input id="dadAns" placeholder="if no GO AWAY!">
+    <button onclick="checkDad()">Submit</button>
+  </div>
+
+  <!-- quiz -->
+  <div id="quiz" style="display:none;">
+    <p id="qText"></p>
+    <input id="aBox" placeholder="your answer">
+    <button onclick="next()">Next</button>
+  </div>
+
+  <!-- memories -->
+  <div id="memories">
+    <!-- 9 floating pics -->
+    <img src="mem1.jpg" class="memPic" style="top: 6%;  left:  5%;">
+    <img src="mem2.jpg" class="memPic" style="top:14%;  left: 75%; animation-duration:7s;">
+    <img src="mem3.jpg" class="memPic" style="top:28%;  left: 15%; animation-duration:5s;">
+    <img src="mem4.jpg" class="memPic" style="top:35%;  left: 60%; animation-duration:8s;">
+    <img src="mem5.jpg" class="memPic" style="top:50%;  left:  3%; animation-duration:6s;">
+    <img src="mem6.jpg" class="memPic" style="top:52%;  left: 80%; animation-duration:7.5s;">
+    <img src="mem7.jpg" class="memPic" style="top:64%;  left: 25%; animation-duration:5.5s;">
+    <img src="mem8.jpg" class="memPic" style="top:68%;  left: 70%; animation-duration:6.5s;">
+    <img src="mem9.jpg" class="memPic" style="top:78%;  left: 45%; animation-duration:9s;">
+
+    <!-- heartfelt text -->
+    <div class="memBox" id="memBox">
+      <p>
+        Happy Father's Day! So glad I won the father lottery: you are such a great dad.
+        Introducing me to music and F1 and so much more. I am thankful for all the hard
+        work you do to make my life so amazing. Hope you have a nice celebratory weekend
+        and aloha Alaska!
+      </p>
+      <button id="openGiftBtn">Open the Gift</button>
+    </div>
+  </div>
+
+  <!-- gift + media -->
+  <img id="gift" src="gift.png" alt="wrapped present">
+  <audio id="song" src="happy.mp3" controls style="display:none;"></audio>
+  <img id="notes" src="notes.png" alt="musical notes">
+
+  <!-- game-over flash -->
+  <div id="gameOver">GAME OVER</div>
+
+<script>
+/* quiz data */
+const quiz=[
+  {q:"How many kids are you a father to?",a:"2"},
+  {q:"What year did you first become a father?",a:"2003"},
+  {q:"As a father you have a father, such is the circle of life. Where was your father born?",a:"france"}
+];
+let qi=0;
+
+/* gate → quiz */
+function checkDad(){
+  const ok=document.getElementById('dadAns').value.trim().toLowerCase();
+  if(ok==='yes'||ok==='y'){ gateToQuiz(); }
+  else{ alert('Then scram 😁'); }
+}
+function gateToQuiz(){
+  document.getElementById('gate').style.display='none';
+  document.getElementById('quiz').style.display='block';
+  showQ();
+}
+function showQ(){
+  document.getElementById('qText').textContent=quiz[qi].q;
+  document.getElementById('aBox').value='';
+}
+function next(){
+  const g=document.getElementById('aBox').value.trim().toLowerCase();
+  if(g===quiz[qi].a){
+    qi++; (qi<quiz.length)?showQ():showMemories();
+  }else{ gameOver(); }
+}
+
+/* memories flow */
+function showMemories(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('memories').style.display='block';
+  document.getElementById('header').textContent='Memories';
+
+  // after 5 s: fade pics, then reveal text & button
+  setTimeout(()=>{
+    document.querySelectorAll('.memPic').forEach(pic=>pic.style.opacity='0');
+    const box=document.getElementById('memBox');
+    box.style.display='block';
+    setTimeout(()=>box.style.opacity='1',50);   // slight delay for smooth fade
+  },5000);
+}
+
+/* gift page */
+document.getElementById('openGiftBtn').onclick=()=>{
+  document.getElementById('memories').style.display='none';
+  showGift();
+};
+function showGift(){
+  const header=document.getElementById('header');
+  header.textContent='Happy Father’s Day! Open your gift!';
+  const gift=document.getElementById('gift');
+  gift.style.display='inline';
+
+  gift.onclick=()=>{
+    gift.remove();
+    header.textContent="Let's record a song together (Saturday?) Here is an idea...";
+    document.getElementById('song').style.display='block';
+    document.getElementById('notes').style.display='block';
+  };
+}
+
+/* fail + reset */
+function gameOver(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('gameOver').style.display='block';
+  setTimeout(resetAll,1500);
+}
+function resetAll(){
+  qi=0;
+  ['gate','dadAns','gift','notes','memories','gameOver'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el) return;
+    if(id==='gate'||id==='gameOver') el.style.display=id==='gate'?'block':'none';
+    else if(id!=='dadAns')           el.style.display='none';
+  });
+  const song=document.getElementById('song');
+  song.pause(); song.currentTime=0; song.style.display='none';
+  document.getElementById('header').textContent='Happy Father’s Day!';
+  document.getElementById('dadAns').value='';
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+

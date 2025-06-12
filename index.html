@@ -25,14 +25,14 @@
     #song  { margin-top:25px; }
     #notes { display:none; margin-top:20px; width:400px; height:auto; }
 
-    /* trivia fail flash */
+    /* game-over flash */
     #gameOver{
       color:#fff; background:#e00; padding:40px; font-size:32px;
       animation:blink .4s step-end infinite alternate; display:none;
     }
     @keyframes blink{ from{opacity:1;} to{opacity:0;} }
 
-    /* memories screen */
+    /* memories */
     #memories{ position:relative; min-height:80vh; display:none; }
 
     .memPic{
@@ -83,16 +83,16 @@
 
   <!-- memories -->
   <div id="memories">
-    <!-- 9 floating pics — staggered to avoid overlap -->
-    <img src="mem1.jpg" class="memPic" style="top:  6%; left:25%;">
-    <img src="mem2.jpg" class="memPic" style="top:  8%; left:60%; animation-duration:7s;">
-    <img src="mem3.jpg" class="memPic" style="top: 25%; left:10%; animation-duration:5s;">
-    <img src="mem4.jpg" class="memPic" style="top: 22%; left:48%; animation-duration:8s;">
-    <img src="mem5.jpg" class="memPic" style="top: 35%; left:70%; animation-duration:6s;">
-    <img src="mem6.jpg" class="memPic" style="top: 48%; left:30%; animation-duration:7.5s;">
-    <img src="mem7.jpg" class="memPic" style="top: 52%; left:58%; animation-duration:5.5s;">
-    <img src="mem8.jpg" class="memPic" style="top: 68%; left:15%; animation-duration:6.5s;">
-    <img src="mem9.jpg" class="memPic" style="top: 70%; left:75%; animation-duration:9s;">
+    <!-- spread-out floating pics -->
+    <img src="mem1.jpg" class="memPic" style="top:  5%; left:10%;">
+    <img src="mem2.jpg" class="memPic" style="top:  5%; left:65%; animation-duration:7s;">
+    <img src="mem3.jpg" class="memPic" style="top: 20%; left:35%; animation-duration:5s;">
+    <img src="mem4.jpg" class="memPic" style="top: 35%; left: 5%; animation-duration:8s;">
+    <img src="mem5.jpg" class="memPic" style="top: 35%; left:75%; animation-duration:6s;">
+    <img src="mem6.jpg" class="memPic" style="top: 50%; left:35%; animation-duration:7.5s;">
+    <img src="mem7.jpg" class="memPic" style="top: 65%; left:10%; animation-duration:5.5s;">
+    <img src="mem8.jpg" class="memPic" style="top: 65%; left:60%; animation-duration:6.5s;">
+    <img src="mem9.jpg" class="memPic" style="top: 75%; left:40%; animation-duration:9s;">
 
     <!-- heartfelt text -->
     <div class="memBox" id="memBox">
@@ -126,8 +126,7 @@ let qi=0;
 /* gate → quiz */
 function checkDad(){
   const ok=document.getElementById('dadAns').value.trim().toLowerCase();
-  if(ok==='yes'||ok==='y'){ gateToQuiz(); }
-  else{ alert('Then scram 😁'); }
+  if(ok==='yes'||ok==='y'){ gateToQuiz(); } else{ alert('Then scram 😁'); }
 }
 function gateToQuiz(){
   document.getElementById('gate').style.display='none';
@@ -140,9 +139,8 @@ function showQ(){
 }
 function next(){
   const g=document.getElementById('aBox').value.trim().toLowerCase();
-  if(g===quiz[qi].a){
-    qi++; (qi<quiz.length)?showQ():showMemories();
-  }else{ gameOver(); }
+  if(g===quiz[qi].a){ ++qi<quiz.length ? showQ() : showMemories(); }
+  else{ gameOver(); }
 }
 
 /* memories flow */
@@ -151,7 +149,7 @@ function showMemories(){
   document.getElementById('memories').style.display='block';
   document.getElementById('header').textContent='Memories';
 
-  /* after 10 s: fade pics, then reveal text & button */
+  /* after 10 s fade pics, reveal text+button */
   setTimeout(()=>{
     document.querySelectorAll('.memPic').forEach(pic=>pic.style.opacity='0');
     const box=document.getElementById('memBox');
@@ -161,16 +159,14 @@ function showMemories(){
 }
 
 /* gift page */
-document.getElementById('openGiftBtn').onclick=()=>{
-  document.getElementById('memories').style.display='none';
-  showGift();
+document.getElementById('openGiftBtn').onclick=()=>{ 
+  document.getElementById('memories').style.display='none'; showGift(); 
 };
 function showGift(){
   const header=document.getElementById('header');
   header.textContent='Happy Father’s Day! Open your gift!';
   const gift=document.getElementById('gift');
   gift.style.display='inline';
-
   gift.onclick=()=>{
     gift.remove();
     header.textContent="Let's record a song together (Saturday?) Here is an idea...";
@@ -190,8 +186,8 @@ function resetAll(){
   ['gate','dadAns','gift','notes','memories','gameOver'].forEach(id=>{
     const el=document.getElementById(id);
     if(!el) return;
-    if(id==='gate'||id==='gameOver') el.style.display=id==='gate'?'block':'none';
-    else if(id!=='dadAns')           el.style.display='none';
+    if(id==='gate'||id==='gameOver'){ el.style.display=id==='gate'?'block':'none'; }
+    else if(id!=='dadAns'){           el.style.display='none'; }
   });
   const song=document.getElementById('song');
   song.pause(); song.currentTime=0; song.style.display='none';
@@ -201,6 +197,7 @@ function resetAll(){
 </script>
 </body>
 </html>
+
 
 
 

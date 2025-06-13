@@ -101,13 +101,20 @@
   <img id="gift" src="gift.png" alt="wrapped present">
  <!-- gift + media  (use these two exact lines) -->
 <!-- centered, still hidden until you flip it on in JS -->
-<audio id="song" src="happy.mp3" controls
+<audio id="song" src="duet.mp3" controls
        style="display:none; width:600px; max-width:90%; margin:25px auto;"></audio>
 
-<img id="notes" src="notes.png" alt="musical notes"
+<img id="notes" src="jam.png" alt="us jamming"
      style="display:none; width:800px; max-width:95%; margin:20px auto; height:auto;">
 
 
+
+<p id="musicMsg"
+   style="display:none; max-width:600px; margin:25px auto; font-size:18px; line-height:1.4;">
+  I know we don't play music together that often anymore and that is sad. Let's get
+  back into it&mdash;I miss hanging out with you! Since we leave Sunday, if we don't
+  have a lot of time Saturday we can do it the weekend we come back?
+</p>
 
   
 
@@ -158,16 +165,17 @@ document.getElementById('openGiftBtn').onclick=()=>{
 function showGift(){
   document.getElementById('header').textContent='Happy Father’s Day! Open your gift!';
   const gift=document.getElementById('gift'); gift.style.display='inline';
-  gift.onclick=()=>{
-    gift.remove();
-    document.getElementById('header').textContent="Let's record a song together (Saturday?) Here is an idea...";
-  
-    // 👉 turn the audio bar on
-    document.getElementById('song').style.display = 'block';
+ gift.onclick = () => {
+  gift.remove();
 
-    // 👉 turn the notes image on (this is the line you asked about)
-    document.getElementById('notes').style.display = 'block';
-  };
+  header.textContent =
+    "Let's record a song together! Here are some fun chords i've been playing around with...";
+
+  document.getElementById('song').style.display  = 'block';  // new MP3
+  document.getElementById('notes').style.display = 'block';  // new picture
+  document.getElementById('musicMsg').style.display = 'block'; // ← new text box
+};
+
 }
 
 /* wrong answer → game over */

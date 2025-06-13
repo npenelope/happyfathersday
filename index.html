@@ -17,14 +17,10 @@
     h1{ margin-bottom:30px; }
     input,button{ font-size:18px; padding:6px 10px; }
 
-    /* gift + media */
+    /* gift + picture (no audio bar anymore) */
     #gift  { width:220px; cursor:pointer; margin-top:25px; display:none; }
-
-    /* centered, bigger audio bar */
-    #song  { display:none; margin:25px auto; width:600px; max-width:90%; }
-
-    /* centered, bigger notes image */
-    #notes { display:none; margin:20px auto; width:600px; max-width:90%; height:auto; }
+    #notes { display:none; width:800px; max-width:95%; margin:20px auto; height:auto; }
+    #musicMsg{ display:none; max-width:600px; margin:25px auto; font-size:18px; line-height:1.4; }
 
     #gameOver{
       color:#fff; background:#e00; padding:40px; font-size:32px;
@@ -76,15 +72,15 @@
 
   <!-- memories -->
   <div id="memories">
-    <img src="mem1.jpg" class="memPic" style="top:  2%; left:12%;">
-    <img src="mem9.jpg" class="memPic" style="top:  3%; left:53%; animation-duration:7s;">
+    <img src="mem1.jpg" class="memPic" style="top:  5%; left:12%;">
+    <img src="mem2.jpg" class="memPic" style="top:  5%; left:68%; animation-duration:7s;">
     <img src="mem3.jpg" class="memPic" style="top: 20%; left:35%; animation-duration:5s;">
     <img src="mem4.jpg" class="memPic" style="top: 32%; left: 6%; animation-duration:8s;">
     <img src="mem5.jpg" class="memPic" style="top: 32%; left:75%; animation-duration:6s;">
     <img src="mem6.jpg" class="memPic" style="top: 48%; left:30%; animation-duration:7.5s;">
     <img src="mem7.jpg" class="memPic" style="top: 56%; left:12%; animation-duration:5.5s;">
     <img src="mem8.jpg" class="memPic" style="top: 56%; left:62%; animation-duration:6.5s;">
-    <img src="mem2.jpg" class="memPic" style="top: 66%; left:46%; animation-duration:9s;">
+    <img src="mem9.jpg" class="memPic" style="top: 66%; left:40%; animation-duration:9s;">
 
     <div class="memBox" id="memBox">
       <p>
@@ -97,30 +93,23 @@
     </div>
   </div>
 
-  <!-- gift + media -->
-  <img id="gift" src="gift.png" alt="wrapped present">
- <!-- gift + media  (use these two exact lines) -->
-<!-- centered, still hidden until you flip it on in JS -->
-<audio id="song" src="duet.mp3" controls
-       style="display:none; width:600px; max-width:90%; margin:25px auto;"></audio>
-
-<img id="notes" src="jam.png" alt="us jamming"
-     style="display:none; width:400px; max-width:90%; margin:20px auto; height:auto;">
-
-
-
-<p id="musicMsg"
-   style="display:none; max-width:600px; margin:25px auto; font-size:18px; line-height:1.4;">
-  I know we don't play music together that often anymore and that is sad. Let's get
-  back into it&mdash;I miss hanging out with you! Since we leave Sunday, if we don't
-  have a lot of time Saturday we can do it the weekend we come back?
-</p>
-
-  
+  <!-- gift + big picture + message -->
+  <img id="gift"   src="gift.png" alt="wrapped present">
+  <img id="notes"  src="jam.png"  alt="us jamming">
+  <p   id="musicMsg">
+    I know we don't play music together that often anymore and that is sad. Let's get
+    back into it—I miss hanging out with you! Since we leave Sunday, if we don't have a
+    lot of time Saturday we can do it the weekend we come back?
+  </p>
 
   <div id="gameOver">GAME OVER</div>
 
 <script>
+/* ----- background audio ----- */
+const bgAudio = new Audio('duet.mp3');
+bgAudio.loop = true;
+
+/* quiz data */
 const quiz=[
   {q:"How many kids are you a father to?",a:"2"},
   {q:"What year did you first become a father?",a:"2003"},
@@ -128,12 +117,17 @@ const quiz=[
 ];
 let qi=0;
 
-/* gate → quiz */
+/* gate → quiz (start background music here) */
 function checkDad(){
   const ok=document.getElementById('dadAns').value.trim().toLowerCase();
-  if(ok==='yes'||ok==='y'){ document.getElementById('gate').style.display='none'; showQ(); }
-  else{ alert('Then scram 😁'); }
+  if(ok==='yes'||ok==='y'){
+    bgAudio.play().catch(()=>{});          // user gesture has occurred
+    document.getElementById('gate').style.display='none';
+    showQ();
+  }else{ alert('Then scram 😁'); }
 }
+
+/* quiz flow */
 function showQ(){
   document.getElementById('quiz').style.display='block';
   document.getElementById('qText').textContent=quiz[qi].q;
@@ -155,40 +149,40 @@ function showMemories(){
     document.querySelectorAll('.memPic').forEach(p=>p.style.opacity='0');
     const box=document.getElementById('memBox');
     box.style.display='block'; setTimeout(()=>box.style.opacity='1',50);
-  },6000);
+  },6000);      // photos fade sooner (6 s)
 }
 
 /* gift */
-document.getElementById('openGiftBtn').onclick=()=>{ 
-  document.getElementById('memories').style.display='none'; showGift();
+document.getElementById('openGiftBtn').onclick=()=>{
+  document.getElementById('memories').style.display='none';
+  showGift();
 };
 function showGift(){
-  document.getElementById('header').textContent='Happy Father’s Day! Open your gift!';
-  const gift=document.getElementById('gift'); gift.style.display='inline';
- gift.onclick = () => {
-  gift.remove();
-
-  header.textContent =
-    "Let's record a song together! Here are some fun chords i've been playing around with...";
-
-  document.getElementById('song').style.display  = 'block';  // new MP3
-  document.getElementById('notes').style.display = 'block';  // new picture
-  document.getElementById('musicMsg').style.display = 'block'; // ← new text box
-};
-
+    document.getElementById('header').textContent='Happy Father’s Day! Open your gift!';
+    const gift=document.getElementById('gift');
+    gift.style.display='inline';
+    gift.onclick=()=>{
+      gift.remove();
+      document.getElementById('header').textContent=
+        "Let's record a song together (Saturday?) Here is an idea...";
+      document.getElementById('notes').style.display='block';
+      document.getElementById('musicMsg').style.display='block';
+    };
 }
 
 /* wrong answer → game over */
-function gameOver(){ document.getElementById('quiz').style.display='none'; document.getElementById('gameOver').style.display='block'; setTimeout(resetAll,1500); }
+function gameOver(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('gameOver').style.display='block';
+  setTimeout(resetAll,1500);
+}
 function resetAll(){
-  qi=0;
-  ['gate','dadAns','gift','notes','memories','gameOver'].forEach(id=>{
+  qi=0; bgAudio.pause(); bgAudio.currentTime=0;
+  ['gate','dadAns','gift','notes','musicMsg','memories','gameOver'].forEach(id=>{
     const el=document.getElementById(id); if(!el) return;
     if(id==='gate'||id==='gameOver'){ el.style.display=id==='gate'?'block':'none'; }
     else if(id!=='dadAns'){ el.style.display='none'; }
   });
-  const song=document.getElementById('song');
-  song.pause(); song.currentTime=0; song.style.display='none';
   document.getElementById('header').textContent='Happy Father’s Day!';
   document.getElementById('dadAns').value='';
 }

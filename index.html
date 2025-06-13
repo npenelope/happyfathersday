@@ -18,22 +18,20 @@
     input,button{ font-size:18px; padding:6px 10px; }
 
     /* gift stage */
-    #gift  { width:220px; cursor:pointer; margin-top:25px; }
+    #gift{ width:220px; cursor:pointer; margin-top:25px; display:none; }  /* hidden at start */
 
     #giftContent{
-      display:none;              /* shown after unwrap */
+      display:none;                               /* shown after unwrap */
       justify-content:center;
       align-items:center;
       gap:24px;
       margin-top:25px;
       flex-wrap:wrap;
     }
-    #jamPic{
-      width:300px; height:auto; border-radius:8px;
-    }
+    #jamPic{ width:300px; height:auto; border-radius:8px; }
     #musicMsg{
-      max-width:380px; font-size:18px; line-height:1.4; margin:0;
-      text-align:left;
+      max-width:380px; font-size:18px; line-height:1.4;
+      margin:0; text-align:left;
     }
 
     #gameOver{
@@ -42,7 +40,7 @@
     }
     @keyframes blink{ from{opacity:1;} to{opacity:0;} }
 
-    /* memories screen */
+    /* memories */
     #memories{ position:relative; min-height:80vh; display:none; }
 
     .memPic{
@@ -86,17 +84,17 @@
 
   <!-- memories -->
   <div id="memories">
-    <img src="mem1.jpg" class="memPic" style="top:  5%; left:12%;">
-    <!-- mem9 now on top right -->
-    <img src="mem9.jpg" class="memPic" style="top:  5%; left:75%; animation-duration:7s;">
-    <img src="mem3.jpg" class="memPic" style="top: 20%; left:35%; animation-duration:5s;">
-    <img src="mem4.jpg" class="memPic" style="top: 32%; left: 6%; animation-duration:8s;">
-    <img src="mem5.jpg" class="memPic" style="top: 32%; left:75%; animation-duration:6s;">
-    <img src="mem6.jpg" class="memPic" style="top: 48%; left:30%; animation-duration:7.5s;">
-    <img src="mem7.jpg" class="memPic" style="top: 56%; left:12%; animation-duration:5.5s;">
-    <img src="mem8.jpg" class="memPic" style="top: 56%; left:62%; animation-duration:6.5s;">
-    <!-- mem2 now lower and more left -->
-    <img src="mem2.jpg" class="memPic" style="top: 66%; left:30%; animation-duration:9s;">
+    <img src="mem1.jpg" class="memPic" style="top:5%;  left:12%;">
+    <!-- mem9 moved far left -->
+    <img src="mem9.jpg" class="memPic" style="top:5%;  left:20%; animation-duration:7s;">
+    <img src="mem3.jpg" class="memPic" style="top:20%; left:35%; animation-duration:5s;">
+    <img src="mem4.jpg" class="memPic" style="top:32%; left:6%;  animation-duration:8s;">
+    <img src="mem5.jpg" class="memPic" style="top:32%; left:75%; animation-duration:6s;">
+    <img src="mem6.jpg" class="memPic" style="top:48%; left:30%; animation-duration:7.5s;">
+    <img src="mem7.jpg" class="memPic" style="top:56%; left:12%; animation-duration:5.5s;">
+    <img src="mem8.jpg" class="memPic" style="top:56%; left:62%; animation-duration:6.5s;">
+    <!-- mem2 moved to right -->
+    <img src="mem2.jpg" class="memPic" style="top:66%; left:70%; animation-duration:9s;">
 
     <div class="memBox" id="memBox">
       <p>
@@ -109,9 +107,10 @@
     </div>
   </div>
 
-  <!-- gift + flex container -->
+  <!-- gift image (hidden) -->
   <img id="gift" src="gift.png" alt="wrapped gift">
 
+  <!-- flex container with small pic + message -->
   <div id="giftContent">
     <img id="jamPic" src="jam.png" alt="us jamming">
     <p id="musicMsg">
@@ -124,7 +123,7 @@
   <div id="gameOver">GAME OVER</div>
 
 <script>
-/* background music */
+/* background track */
 const bgAudio = new Audio('duet.mp3'); bgAudio.loop = true;
 
 /* quiz */
@@ -166,28 +165,34 @@ function showMemories(){
   setTimeout(()=>{
     document.querySelectorAll('.memPic').forEach(p=>p.style.opacity='0');
     const box=document.getElementById('memBox');
-    box.style.display='block'; setTimeout(()=>box.style.opacity='1',50);
+    box.style.display='block';
+    setTimeout(()=>box.style.opacity='1',50);
   },6000);
 }
 
-/* gift */
-document.getElementById('openGiftBtn').onclick=()=>{ 
+/* gift reveal */
+document.getElementById('openGiftBtn').onclick=()=>{
   document.getElementById('memories').style.display='none';
   showGift();
 };
 function showGift(){
   document.getElementById('header').textContent='Happy Father’s Day! Open your gift!';
-  const gift=document.getElementById('gift'); gift.style.display='inline';
+  const gift=document.getElementById('gift');
+  gift.style.display='inline';                       // show wrapped box
+
   gift.onclick=()=>{
-    gift.remove();
-    document.getElementById('header').textContent=
-      "Let's record a song together!!!";
+    gift.remove();                                   // unwrap
+    document.getElementById('header').textContent="Let's record a song together!";
     document.getElementById('giftContent').style.display='flex';
   };
 }
 
 /* game over + reset */
-function gameOver(){ document.getElementById('quiz').style.display='none'; document.getElementById('gameOver').style.display='block'; setTimeout(resetAll,1500); }
+function gameOver(){
+  document.getElementById('quiz').style.display='none';
+  document.getElementById('gameOver').style.display='block';
+  setTimeout(resetAll,1500);
+}
 function resetAll(){
   qi=0; bgAudio.pause(); bgAudio.currentTime=0;
   ['gate','dadAns','gift','giftContent','memories','gameOver'].forEach(id=>{

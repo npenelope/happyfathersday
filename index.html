@@ -163,13 +163,14 @@ function showGift(){
     document.getElementById('header').textContent='Happy Father’s Day! Open your gift!';
     const gift=document.getElementById('gift');
     gift.style.display='inline';
-    gift.onclick=()=>{
-      gift.remove();
-      document.getElementById('header').textContent=
-        "Let's record a song together!";
-      document.getElementById('notes').style.display='block';
-      document.getElementById('musicMsg').style.display='block';
-    };
+    gift.onclick = () => {
+  gift.remove();
+  header.textContent =
+    "Let's record a song together! ;
+  // show the picture + text box together
+  document.getElementById('giftContent').style.display = 'flex';
+};
+
 }
 
 /* wrong answer → game over */
